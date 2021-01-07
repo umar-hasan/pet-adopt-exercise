@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Pets</h1>
+{% if pets | length > 0 %}
+<div class="row">
+    {% for pet in pets %}
+    <div class="col-sm-4 mx-auto text-center">
+        {% if pet.photo_url.endswith(".jpg") or pet.photo_url.endswith(".png") or pet.photo_url.endswith(".jpeg") or
+        pet.photo_url.endswith(".gif") %}
+        <img class="img-thumbnail" src={{pet.photo_url}} alt="">
+
+        <a class="text-decoration-none" href="/pet/{{pet.id}}">
+            <strong>{{pet.name}}</strong>
+        </a>
+
+        <span>
+            {% if pet.available == True %}
+            <strong>is available!</strong>
+            {% else %}
+            is unavailable.
+            {% endif %}
+        </span>
+
+        {% else %}
+            <div class="card justify-content-center h-100">
+                <p class="card-text">
+                    <a class="text-decoration-none" href="/pet/{{pet.id}}">
+                        <strong>{{pet.name}}</strong>
+                    </a>
+            
+                    <span>
+                        {% if pet.available == True %}
+                        <strong>is available!</strong>
+                        {% else %}
+                        is unavailable.
+                        {% endif %}
+                    </span>
+                </p>
+                
+            </div>
+        {% endif %}
+    </div>
+
+    {% endfor %}
+</div>
+
+{% else %}
+<p>No pets listed.</p>
+{% endif %}
+<div class="text-center my-4">
+    <a class="my-4 mx-auto" href="/add">
+        <button class="btn btn-success">Add Pet</button>
+    </a>
+</div>
+
+
+{% endblock %}

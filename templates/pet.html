@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if pet.photo_url.endswith(".jpg") or pet.photo_url.endswith(".png") or pet.photo_url.endswith(".jpeg") or
+pet.photo_url.endswith(".gif") %}
+<img class="img-thumbnail w-25" src={{pet.photo_url}} alt="">
+{% endif %}
+<h2>{{pet.name}}</h2>
+{% if pet.available == True %}
+<span class="badge bg-success my-2">Available</span>
+{% else %}
+<span class="badge bg-danger my-2">Unavailable</span>
+{% endif %}
+<div>
+    <strong>Species: </strong>
+    <span>{{pet.species}}</span>
+</div>
+<div>
+    <strong>Age: </strong>
+    <span>{{pet.age}}</span>
+</div>
+<p>
+    <strong>Notes:</strong>
+    <p>{{pet.notes}}</p>
+</p>
+
+<form class="my-5" action="/pet/{{pet.id}}" method="POST">
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != 'hidden' %}
+    <p>
+        {{field.label}}
+        {{field}}
+    </p>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+<form action="/pet/{{pet.id}}/delete" method="POST">
+    <button class="btn btn-danger">Remove Pet</button>
+</form>
+{% endblock %}
